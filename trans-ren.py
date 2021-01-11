@@ -240,18 +240,18 @@ def break_blocks(current_location: CurrentLocation):
 def translate(txt, input_text_area, wait):
     if len(txt) <= 1 or validators.url(txt):
         return txt
-    if txt == "with fade" or txt == "with dissolve" or txt == "with pixellate" \
-            or txt == "with move" or txt == "with moveinright" or txt == "with moveoutright" \
-            or txt == "with ease" or txt == "with zoomin" or txt == "with zoomout" or txt == "with zoominout" \
-            or txt == "with vpunch" or txt == "with hpunch" or txt == "with blinds" or txt == "with squares" \
-            or txt == "with wipeleft" or txt == "with slideleft" or txt == "with slideawayleft" or txt == "with pushright" \
-            or txt == "with irisin" or txt == "with moveinleft" or txt == "with moveintop" or txt == "with moveinbottom" \
-            or txt == "with moveoutleft" or txt == "with moveouttop" or txt == "with moveoutbottom" or txt == "with easeinright" \
-            or txt == "with easeinleft" or txt == "with  easeintop" or txt == "with easeinbottom" or txt == "with easeoutright" \
-            or txt == "with easeoutleft" or txt == "with easeouttop" or txt == "with easeoutbottom" or txt == "with wiperight" \
-            or txt == "with wipeup" or txt == "with wipedown" or txt == "with slideright" or txt == "with slideup" \
-            or txt == "with slidedown" or txt == "with slideawayright" or txt == "with slideawayup" or txt == "with slideawaydown" \
-            or txt == "with pushleft" or txt == "with pushup" or txt == "with pushdown" or txt == "with irisout" or txt == "with fdissolve":
+    if ("with fade" in txt) or ("with dissolve" in txt) or ("with pixellate" in txt) \
+            or ("with move" in txt) or ("with moveinright" in txt) or ("with moveoutright" in txt) or ("with ease" in txt) \
+            or ("with zoomin" in txt) or ("with zoomout" in txt) or ("with zoominout" in txt) or ("with vpunch" in txt) \
+            or ("with hpunch" in txt) or ("with blinds" in txt) or ("with squares" in txt) or ("with wipeleft" in txt) \
+            or ("with slideleft" in txt) or ("with slideawayleft" in txt) or ("with pushright" in txt) or ("with irisin" in txt) \
+            or ("with moveinleft" in txt) or ("with moveintop" in txt) or ("with moveinbottom" in txt) or ("with moveoutleft" in txt) \
+            or ("with moveouttop" in txt) or ("with moveoutbottom" in txt) or ("with easeinright" in txt) or ("with easeinleft" in txt) \
+            or ("with easeintop" in txt) or ("with easeinbottom" in txt) or ("with easeoutright" in txt) or ("with easeoutleft" in txt) \
+            or ("with easeouttop" in txt) or ("with easeoutbottom" in txt) or ("with wiperight" in txt) or ("with wipeup" in txt) \
+            or ("with wipedown" in txt) or ("with slideright" in txt) or ("with slideup" in txt) or ("with slidedown" in txt) \
+            or ("with slideawayright" in txt) or ("with slideawayup" in txt) or ("with slideawaydown" in txt) or ("with pushleft" in txt) \
+            or ("with pushup" in txt) or ("with pushdown" in txt) or ("with irisout" in txt) or ("with fdissolve" in txt):
         return ""
     result = ""
     input_text_area.send_keys(txt)
@@ -440,7 +440,8 @@ def runner(thread_index, input_lang, output_lang, driver_path):
                 output_lang=output_lang
             )
         )
-        driver.execute_script("document.title = 'Thread {}'".format(thread_index + 1))
+        driver.execute_script(
+            "document.title = 'Thread {}'".format(thread_index + 1))
         input_text_area = driver.find_element(By.XPATH, XPATH_INPUT)
         wait = WebDriverWait(driver, MAX_TIME_WAIT_ELEMENT)
         while True:
