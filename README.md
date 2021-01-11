@@ -53,7 +53,7 @@ Author: duc010298
     
     And then download ChromeDriver suitable for your browser at: [chromedriver.chromium.org](https://chromedriver.chromium.org/)
     
-    After downloaded, extract it, copy and rewrite `chromedriver.exe` to folder `Driver` in source code folder
+    After downloaded, extract it, copy and rewrite `chromedriver` to folder `Driver\[your_os]` in source code folder
 
 ### Usage
 

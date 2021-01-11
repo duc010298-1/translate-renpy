@@ -6,6 +6,7 @@ import shutil
 import time
 import argparse
 import validators
+from sys import platform
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,7 +29,9 @@ MERGED_BLOCK_FILE = "output-temp.txt"
 SIGN_BREAK_FILE = "ThisIsSomeRandomString"
 MAX_CHAR_IN_THREAD = 1000
 MAX_TIME_WAIT_ELEMENT = 3
-DRIVER_PATH = "Driver/chromedriver.exe"
+DRIVER_PATH_WIN = "Driver/Win/chromedriver.exe"
+DRIVER_PATH_LINUX = "Driver/Linux/chromedriver"
+DRIVER_PATH_MAC = "Driver/Mac/chromedriver"
 LANGUAGE_SUPPORT = ["af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "co", "hr", "cs",
                     "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "haw", "he", "hi", "hmn",
                     "hu", "is", "ig", "id", "ga", "it", "ja", "jv", "kn", "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt",
@@ -428,9 +431,9 @@ def merge_translated_blocks():
     print("-------------Merge completed-------------")
 
 
-def runner(thread_index, input_lang, output_lang):
+def runner(thread_index, input_lang, output_lang, driver_path):
     global current_location
-    with webdriver.Chrome(executable_path=DRIVER_PATH, options=WEB_DRIVER_OPTIONS) as driver:
+    with webdriver.Chrome(executable_path=driver_path, options=WEB_DRIVER_OPTIONS) as driver:
         driver.get(
             "https://translate.google.com/?hl={input_lang}#{input_lang}/{output_lang}/".format(
                 input_lang=input_lang,
@@ -518,6 +521,14 @@ def build_rpy_file():
 
 
 def main(args):
+    driver_path = ""
+    if platform == "linux" or platform == "linux2":
+        driver_path = DRIVER_PATH_LINUX
+    elif platform == "darwin":
+        driver_path = DRIVER_PATH_MAC
+    elif platform == "win32":
+        driver_path = DRIVER_PATH_WIN
+
     build_web_driver_options(args.show_browser)
     start = time.time()
     global current_location
@@ -534,7 +545,7 @@ def main(args):
     threads = []
     for i in range(args.number_of_thread):
         threads.append(threading.Thread(
-            target=runner, args=(i, args.input_lang, args.output_lang)))
+            target=runner, args=(i, args.input_lang, args.output_lang, driver_path)))
         dialogue_thread_done.append(0)
         total_cluster_translate.append(0)
         threads[i].start()
