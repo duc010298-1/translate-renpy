@@ -440,6 +440,7 @@ def runner(thread_index, input_lang, output_lang, driver_path):
                 output_lang=output_lang
             )
         )
+        driver.execute_script("document.title = 'Thread {}'".format(thread_index + 1))
         input_text_area = driver.find_element(By.XPATH, XPATH_INPUT)
         wait = WebDriverWait(driver, MAX_TIME_WAIT_ELEMENT)
         while True:
